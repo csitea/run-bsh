@@ -7,3 +7,4 @@ do_test_hooks() {
     return 1
   fi
 }
+# run-bsh ::: v3.7.0

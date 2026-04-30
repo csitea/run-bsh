@@ -1,55 +1,51 @@
 #!/bin/env bash
-
-# TGT_PATH=/opt/bas/bas-wpb/bas-wpb-utl/src/bash/run.sh bash /opt/bas/bas-wpb/bas-wpb-utl/run -a do_clone_file_src_proj
-
+#------------------------------------------------------------------------------
+# @description Copy a single file from a source app's same-kind module into
+# @description the local target module at TGT_PATH.
+# @param TGT_PATH (required) - Path to the target file.
+# @param SRC_ORG (required) - Source organization name.
+# @param SRC_APP (required) - Source application name.
+# @example TGT_PATH=/opt/csi/csi-wpb/csi-wpb-utl/src/bash/run.sh SRC_ORG=bas SRC_APP=bas-wpb ./run -a do_clone_file_from_src_proj
+#------------------------------------------------------------------------------
 do_clone_file_from_src_proj() {
-  do_require_var TGT_PATH "${TGT_PATH:-}" # Ensure TGT_PATH is defined
-  do_require_var SRC_ORG "${SRC_ORG:-}"
-  do_require_var SRC_APP "${SRC_APP:-}"
+  do_require_var TGT_PATH "${TGT_PATH:-}"
+  do_require_var SRC_ORG  "${SRC_ORG:-}"
+  do_require_var SRC_APP  "${SRC_APP:-}"
+  SKIP_GLOBS="${SKIP_GLOBS:-}"
 
-  SKIP_GLOBS="${SKIP_GLOBS:-}" # Ensure SKIP_GLOBS is defined
-
-  # Log the target path for reference
   echo "Target path: ${TGT_PATH}"
-  # Extract 'PROJ_TYPE' from the last part of the path, after the last '-'
-  PROJECT_TYPE=$(echo "${TGT_PATH}" | grep -oP '(?<=[a-zA-Z]{3}-[a-zA-Z]{3}-)[a-zA-Z]{3}/' | tr -d '\n')
-  PROJECT_TYPE=${PROJECT_TYPE%/}
 
-  TGT_PROJ_PATH=$(echo "${TGT_PATH}" | grep -oP '(.*/[a-zA-Z]{3}-[a-zA-Z]{3}-)[a-zA-Z0-9]+')
-  echo "TGT_PROJ_PATH : ${TGT_PROJ_PATH}"
+  do_split_mod_path "${APP}" "${TGT_PATH}" || { export EXIT_CODE=1; return 1; }
+  local tgt_proj_path="${PROJ_ROOT}"
+  local proj_kind="${PROJ_KIND}"
+  local tgt_relative_path="${PROJ_REL_PATH}"
+  echo "TGT_PROJ_PATH       : ${tgt_proj_path}"
+  echo "Project kind        : ${proj_kind}"
+  echo "Target relative path: ${tgt_relative_path}"
 
-  TGT_RELATIVE_PATH="${TGT_PATH#${TGT_PROJ_PATH}}"
-  TGT_RELATIVE_PATH="${TGT_RELATIVE_PATH%/}"
-  echo "Target relative path: ${TGT_RELATIVE_PATH}"
-
-  # Construct the base source path
-  BAS_PATH="$BASE_PATH/$SRC_ORG/$SRC_ORG-$SRC_APP/$SRC_ORG-$SRC_APP-${PROJECT_TYPE}"
+  BAS_PATH="${BASE_PATH}/${SRC_ORG}/${SRC_APP}/${SRC_APP}-${proj_kind}"
   echo "Base path for replication: ${BAS_PATH}"
 
-  SRC_BAS_PATH="${BAS_PATH}${TGT_RELATIVE_PATH}"
+  SRC_BAS_PATH="${BAS_PATH}/${tgt_relative_path}"
   echo "Source base path: ${SRC_BAS_PATH}"
-  # now WE Must ensure that the SRC_PATH_PATH ALWAYS ends with /
 
-  # Ensure the target directory exists and is ready
-  mkdir -p $(dirname "${TGT_PATH}")
-  cd "${TGT_PROJ_PATH}"
-  if [ $(git status --porcelain | grep '^\(??\| M\)' | wc -l) -ne 0 ]; then
+  mkdir -p "$(dirname "${TGT_PATH}")"
+  cd "${tgt_proj_path}"
+  if [ "$(git status --porcelain | grep '^\(??\| M\)' | wc -l)" -ne 0 ]; then
     do_log "FATAL: There are uncommitted changes in ${TGT_PATH} !!!
             Please commit or stash them before replicating."
     export EXIT_CODE=1
     return
   fi
 
-  # Perform Git operations
   git pull --rebase
 
   cp -v "${SRC_BAS_PATH}" "${TGT_PATH}"
-  # use ^^^ ONLY if you know what you are doing ... it will delete files in TGT_PATH not existing in the BAS_PATH
 
-  # Prepare for Git commit
   git add .
   git commit -m "$GIT_MSG"
   git push
 
   export EXIT_CODE=0
 }
+# run-bsh ::: v3.7.0

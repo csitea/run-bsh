@@ -1,53 +1,49 @@
 #!/bin/env bash
-# Usage:
-# SRC_PATH=/opt/bas/bas-wpb/bas-wpb-wui TGT_ORG=csi TGT_APP=wpb./run -a do_clone_proj_to_bas
-
+#------------------------------------------------------------------------------
+# @description Push the local source module SRC_PATH to a same-kind module in
+# @description the target app (TGT_ORG/TGT_APP).
+# @param SRC_PATH (required) - Path to the local source module.
+# @param TGT_ORG (required) - Target organization name.
+# @param TGT_APP (required) - Target application name.
+# @param SKIP_GLOBS (optional) - Space-separated glob patterns to exclude.
+# @param RSYNC_DELETE_OFF (optional) - If set, rsync will not use --delete.
+# @example SRC_PATH=/opt/bas/bas-wpb/bas-wpb-wui TGT_ORG=csi TGT_APP=csi-wpb ./run -a do_clone_proj_to_tgt_proj
+#------------------------------------------------------------------------------
 do_clone_proj_to_tgt_proj() {
+  do_require_var SRC_PATH "${SRC_PATH:-}"
+  do_require_var TGT_ORG  "${TGT_ORG:-}"
+  do_require_var TGT_APP  "${TGT_APP:-}"
+  SKIP_GLOBS="${SKIP_GLOBS:-}"
 
-  do_require_var SRC_PATH "${SRC_PATH:-}" # Ensure SRC_PATH is defined
-  do_require_var TGT_ORG "${TGT_ORG:-}"
-  do_require_var TGT_APP "${TGT_APP:-}"
-
-  SKIP_GLOBS="${SKIP_GLOBS:-}" # Ensure SKIP_GLOBS is defined
-
-  # Ensure SRC_PATH always ends with a slash
   [[ "${SRC_PATH}" != */ ]] && SRC_PATH="${SRC_PATH}/"
-
-  # Log the source path for reference
   echo "Source path: ${SRC_PATH}"
 
-  # Extract 'PROJ_TYPE' from the last part of the path, after the last '-'
-  PROJECT_TYPE=$(echo "${SRC_PATH}" | grep -oP '(?<=[a-zA-Z]{3}-[a-zA-Z]{3}-)[a-zA-Z]{3}/?' | tr -d '\n')
-  PROJECT_TYPE=${PROJECT_TYPE%/}
-  echo "Project type: ${PROJECT_TYPE}"
+  local src_leaf
+  src_leaf="$(basename "${SRC_PATH%/}")"
+  PROJ_KIND="${src_leaf##*-}"
+  echo "Project kind: ${PROJ_KIND}"
 
-  # Construct the base replication path
-  BAS_PATH="$BASE_PATH/$TGT_ORG/$TGT_ORG-$TGT_APP/$TGT_ORG-$TGT_APP-${PROJECT_TYPE}"
+  BAS_PATH="${BASE_PATH}/${TGT_ORG}/${TGT_APP}/${TGT_APP}-${PROJ_KIND}"
   echo "Base path for Git operations: ${BAS_PATH}"
 
-  # Ensure we are in the correct directory and it's clean
   mkdir -p "${BAS_PATH}"
   cd "${BAS_PATH}"
-  if [ $(git status --porcelain | grep '^\(??\| M\)' | wc -l) -ne 0 ]; then
+  if [ "$(git status --porcelain | grep '^\(??\| M\)' | wc -l)" -ne 0 ]; then
     do_log "FATAL: There are uncommitted changes in ${BAS_PATH} !!!
             Please commit or stash them before replicating."
     export EXIT_CODE=1
     return
   fi
 
-  # Perform Git operations
   git pull --rebase
 
-  # Prepare rsync exclude patterns from environment variable SKIP_GLOBS
   IFS=' ' read -r -a exclude_patterns <<<"$SKIP_GLOBS"
   exclude_args=()
   for pattern in "${exclude_patterns[@]}"; do
     exclude_args+=("--exclude=$pattern")
   done
 
-  # make the --delete optional by using the RSYNC_DELETE_OFF environment variable
   RSYNC_DELETE_OFF="${RSYNC_DELETE_OFF:-}"
-
   if [ -n "${RSYNC_DELETE_OFF}" ]; then
     echo "RSYNC_DELETE_OFF is set to '${RSYNC_DELETE_OFF}'"
     echo "Will NOT delete files in ${BAS_PATH} not existing in ${SRC_PATH}"
@@ -56,18 +52,13 @@ do_clone_proj_to_tgt_proj() {
     exclude_args+=("--delete")
   fi
 
-  # Rsync from SRC_PATH to the corresponding directory in BAS_PATH
-  # do not use --delte option to avoid deleting files in BAS_PATH
   rsync -av "${exclude_args[@]}" --exclude='.git/' "${SRC_PATH}" "${BAS_PATH}"
 
-  # --delete
-  # use ^^^ ONLY if you know what you are doing ... it will delete files in BAS_PATH not exising in the SRC_PATH
-  mkdir -p ${BAS_PATH}
-  cd ${BAS_PATH}
-  # Prepare for Git commit
+  cd "${BAS_PATH}"
   git add .
-  git commit -m "$GIT_MSG<"
+  git commit -m "$GIT_MSG"
   git push
 
   export EXIT_CODE=0
 }
+# run-bsh ::: v3.7.0

@@ -66,3 +66,4 @@ do_load_pat() {
     return 11
   fi
 }
+# run-bsh ::: v3.7.0

@@ -8,3 +8,4 @@ do_resolve_dirname() {
   local path_in_the_BASE_PATH="$1"
   perl -e 'use File::Basename; use Cwd "abs_path"; print dirname(abs_path(@ARGV[0]));' -- "$path_in_the_BASE_PATH"
 }
+# run-bsh ::: v3.7.0

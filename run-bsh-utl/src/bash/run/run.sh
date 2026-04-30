@@ -1,28 +1,4 @@
 #!/bin/bash
-#==============================================================================
-# run.sh — minimalistic bash framework
-# Version:  3.7.0
-# Upstream: https://github.com/csitea/run-bsh
-#------------------------------------------------------------------------------
-# Version history (newest first):
-#   3.7.0  2026-04-30  Forked back to csitea/run-bsh as a minimal bootstrap.
-#                      Slimmed: dropped Make, Docker, Confluence/Jira/GCP
-#                      actions; nested under run-bsh-utl/. Imported from
-#                      nda-edw-utl: auto-discovered actions, named-args + PRE/
-#                      POST hooks, do_load_config, do_detect_base_paths,
-#                      do_verify_symlinks, do_help_with, test fixtures.
-#   3.6.4  2026-04-30  Sync point with nda-edw-utl (full feature set, downstream).
-#   2.x    2024-08     RUN_UNIT var resolution, OS-distro vars hardening
-#                      (debian/suse/fedora), do_set_vars_v204 era.
-#   1.1    2024-02     do_log split into a truly re-usable helper; DIR -> PATH
-#                      naming refactor across the framework (<REDACTED>).
-#   1.0.3  2023-01-11  First tagged release: limited support to invoke run from
-#                      non-symlink <<PRODUCT_DIR>>/run + do_zip_me + per-distro
-#                      set-vars-on-<<os>> hooks.
-#
-# When copying this file into a downstream project: bump the version above and
-# append a new entry describing the local change. Keep the banner intact.
-#==============================================================================
 #
 # Minimalistic run.sh framework
 # usage: ./run --help
@@ -385,3 +361,29 @@ quit_on(){
 }
 
 main "$@"
+
+#==============================================================================
+# run.sh — minimalistic bash framework
+# Version:  3.7.0
+# Upstream: https://github.com/csitea/run-bsh
+#------------------------------------------------------------------------------
+# Version history (newest first):
+#   3.7.0  2026-04-30  Forked back to csitea/run-bsh as a minimal bootstrap.
+#                      Slimmed: dropped Make, Docker, Confluence/Jira/GCP
+#                      actions; nested under run-bsh-utl/. Imported from
+#                      nda-edw-utl: auto-discovered actions, named-args + PRE/
+#                      POST hooks, do_load_config, do_detect_base_paths,
+#                      do_verify_symlinks, do_help_with, test fixtures.
+#   3.6.4  2026-04-30  Sync point with nda-edw-utl (full feature set, downstream).
+#   2.x    2024-08     RUN_UNIT var resolution, OS-distro vars hardening
+#                      (debian/suse/fedora), do_set_vars_v204 era.
+#   1.1    2024-02     do_log split into a truly re-usable helper; DIR -> PATH
+#                      naming refactor across the framework (<REDACTED>).
+#   1.0.3  2023-01-11  First tagged release: limited support to invoke run from
+#                      non-symlink <<PRODUCT_DIR>>/run + do_zip_me + per-distro
+#                      set-vars-on-<<os>> hooks.
+#
+# When copying this file into a downstream project: bump the version above and
+# append a new entry describing the local change. Keep the banner intact.
+#==============================================================================
+# run-bsh ::: v3.7.0

@@ -18,3 +18,4 @@ do_test_custom_args() {
   do_require_var NAME "${NAME:-}"
   do_log "INFO Custom Parse Result: Name=$NAME, Force=${FORCE:-false}"
 }
+# run-bsh ::: v3.7.0
