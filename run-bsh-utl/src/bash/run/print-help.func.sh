@@ -72,6 +72,9 @@ EOF_USAGE
   echo "   Environment variables still work (backward compatible):"
   echo "     SRCH=zip ./run -a do_help_with"
   echo ""
+  echo "   Run all tests:"
+  echo "     bash src/bash/tests/run-all-tests.sh"
+  echo ""
   echo "   Tip: Use ./run -a do_help_with --search <keyword> for detailed help."
   echo ""
   exit 1
