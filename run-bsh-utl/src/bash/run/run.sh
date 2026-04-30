@@ -268,16 +268,15 @@ do_log() {
   if [[ -n "${LOG_DIR:-}" ]]; then
     _log_dir="$LOG_DIR"
     mkdir -p "$_log_dir" 2>/dev/null || true
-  else
-    local _primary="/var/csi/run-bsh/run-bsh-utl"
-    local _fallback="/opt/csi/run-bsh/run-bsh-utl/dat/log"
-
-    if mkdir -p "$_primary" 2>/dev/null && [[ -w "$_primary" ]]; then
-      _log_dir="$_primary"
-    else
-      _log_dir="$_fallback"
+  elif [[ -n "${PROJ:-}" && -n "${ORG:-}" && -n "${APP:-}" ]]; then
+    _log_dir="${VAR_DIR:-/var}/${ORG}/${APP}/${PROJ}/dat/log/bash"
+    if ! mkdir -p "$_log_dir" 2>/dev/null; then
+      _log_dir="${PROJ_PATH:-$(pwd)}/dat/log/bash"
       mkdir -p "$_log_dir" 2>/dev/null || true
     fi
+  else
+    _log_dir="${PROJ_PATH:-$(pwd)}/dat/log/bash"
+    mkdir -p "$_log_dir" 2>/dev/null || true
   fi
   log_dir="$_log_dir"
   export LOG_DIR="$log_dir"
@@ -376,10 +375,19 @@ main "$@"
 
 #==============================================================================
 # run.sh — minimalistic bash framework
-# Version:  3.7.0
+# Version:  3.8.0
 # Upstream: https://github.com/csitea/run-bsh
 #------------------------------------------------------------------------------
 # Version history (newest first):
+#   3.8.0  2026-04-30  Sync framework primitives from nda-edw-utl: write-probe
+#                      in do_detect_base_paths (more reliable than -w on some
+#                      FUSE/NFS filesystems); path-derived LOG_DIR formula in
+#                      do_log (both lib/bash/funcs/log.func.sh and run.sh
+#                      inline copy) — removes hardcoded /var/csi/run-bsh/
+#                      run-bsh-utl literal so logs land at
+#                      \${VAR_DIR}/\${ORG}/\${APP}/\${PROJ}/dat/log/bash for
+#                      whichever project clones this framework; +docker hint
+#                      in do_require_bin install map.
 #   3.7.0  2026-04-30  Forked back to csitea/run-bsh as a minimal bootstrap.
 #                      Slimmed: dropped Make, Docker, Confluence/Jira/GCP
 #                      actions; nested under run-bsh-utl/. Imported from
@@ -398,4 +406,4 @@ main "$@"
 # When copying this file into a downstream project: bump the version above and
 # append a new entry describing the local change. Keep the banner intact.
 #==============================================================================
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

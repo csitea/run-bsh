@@ -23,12 +23,16 @@ do_detect_base_paths() {
 # Never prompts, never sudos, fails silently if neither is writable (the
 # caller will see the error when it tries to use the returned path).
 _do_probe_writable_root() {
-  local primary="$1" fallback="$2"
-  if [[ -d "$primary" && -w "$primary" ]]; then
-    echo "$primary"
-    return 0
+  local primary="$1" fallback="$2" probe
+  if [[ -d "$primary" ]]; then
+    probe="$primary/.probe-$$-$RANDOM"
+    if : > "$probe" 2>/dev/null; then
+      rm -f "$probe"
+      echo "$primary"
+      return 0
+    fi
   fi
   mkdir -p "$fallback" 2>/dev/null || true
   echo "$fallback"
 }
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

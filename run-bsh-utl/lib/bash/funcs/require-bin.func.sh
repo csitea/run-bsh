@@ -23,6 +23,7 @@ do_require_bin() {
       pip3)    echo "sudo apt-get install -y python3-pip" ;;
       node)    echo "sudo apt-get install -y nodejs" ;;
       npm)     echo "sudo apt-get install -y npm" ;;
+      docker)  echo "sudo apt-get install -y docker.io" ;;
       zip)     echo "sudo apt-get install -y zip" ;;
       unzip)   echo "sudo apt-get install -y unzip" ;;
       sed)     echo "sudo apt-get install -y sed" ;;
@@ -59,4 +60,4 @@ do_require_bin() {
     return 11
   fi
 }
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0
