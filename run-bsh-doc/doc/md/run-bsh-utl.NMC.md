@@ -14,22 +14,6 @@ PARAM=value ./run -a <action_name>
 
 ## Actions
 
-### `do_config_loader`
-
-**File:** `run-bsh-utl/lib/bash/funcs/config-loader.func.sh`
-
-Hierarchical configuration loader.
-Loads proj.cnf then $USER.cnf (highest priority).
-Later files overwrite earlier ones. Missing files are silently skipped.
-
-**Examples:**
-
-```bash
-do_load_config
-```
-
----
-
 ### `do_detect_base_paths`
 
 **File:** `run-bsh-utl/lib/bash/funcs/detect-base-paths.func.sh`
@@ -240,26 +224,6 @@ DIR_TO_MORPH=src/sql/td/<REDACTED> STR_TO_SRCH=<REDACTED> STR_TO_REPL=<REDACTED>
 **Prerequisites:**
 
 - perl find file grep
-
----
-
-### `do_os_detect`
-
-**File:** `run-bsh-utl/lib/bash/funcs/os-detect.func.sh`
-
-Detect the current OS/shell environment and resolve tool paths.
-On Git Bash (Windows), tools under the project bin/ dir are
-preferred and automatically resolved with the .exe suffix.
-On Linux/WSL, system tools are used as-is.
-
-**Examples:**
-
-```bash
-do_which_os               # prints: linux | wsl | windows-gitbash
-do_set_os_env             # sets OS_TYPE, EXE, WIN_BIN_DIR exports
-cmd=$(do_resolve_tool curl)
-do_set_sudo_vars          # sets SUDO and SUDO_YSG based on OS
-```
 
 ---
 
@@ -840,6 +804,42 @@ Lists all available actions with their descriptions from metadata tags.
 
 ---
 
+### `do_split_mod_path`
+
+**File:** `run-bsh-utl/lib/bash/funcs/split-mod-path.func.sh`
+
+Splits an absolute path into its module-root, project-kind, and in-module
+relative path. Module dirs follow the convention `${APP}-${PROJ_KIND}`
+(e.g. `run-bsh-utl`, where `APP=run-bsh`, `PROJ_KIND=utl`). On success
+exports four globals — `PROJ_NAME`, `PROJ_KIND`, `PROJ_ROOT`,
+`PROJ_REL_PATH` — used by the `do_clone_*` family to derive target paths.
+
+**Parameters:**
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `app` | **required** | App prefix to anchor on (positional, e.g. `run-bsh`) |
+| `path` | **required** | Absolute path inside (or at) a module dir (positional) |
+
+**Outputs (exported):**
+
+| Variable | Description |
+|----------|-------------|
+| `PROJ_NAME` | basename of the module dir (e.g. `run-bsh-utl`) |
+| `PROJ_KIND` | trailing token after `${app}-` (e.g. `utl`) |
+| `PROJ_ROOT` | absolute path of the module dir |
+| `PROJ_REL_PATH` | path inside the module (empty when `path == module root`) |
+
+**Examples:**
+
+```bash
+do_split_mod_path "run-bsh" "/opt/csi/run-bsh/run-bsh-utl/src/bash/foo.sh"
+echo "$PROJ_KIND"      # → utl
+echo "$PROJ_REL_PATH"  # → src/bash/foo.sh
+```
+
+---
+
 ### `do_test_config`
 
 **File:** `run-bsh-utl/src/bash/run/test-config.func.sh`
@@ -881,14 +881,6 @@ Test action for decentralized named argument parsing.
 ### `do_zip_all_projects`
 
 **File:** `run-bsh-utl/src/bash/run/zip-all-projects.func.sh`
-
-*⚠ Legacy format — no structured metadata available.*
-
----
-
-### `do_zip_me_as_module`
-
-**File:** `run-bsh-utl/src/bash/run/zip-me-as-module.func.sh`
 
 *⚠ Legacy format — no structured metadata available.*
 
