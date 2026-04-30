@@ -1,4 +1,28 @@
 #!/bin/bash
+#==============================================================================
+# run.sh — minimalistic bash framework
+# Version:  3.7.0
+# Upstream: https://github.com/csitea/run-bsh
+#------------------------------------------------------------------------------
+# Version history (newest first):
+#   3.7.0  2026-04-30  Forked back to csitea/run-bsh as a minimal bootstrap.
+#                      Slimmed: dropped Make, Docker, Confluence/Jira/GCP
+#                      actions; nested under run-bsh-utl/. Imported from
+#                      nda-edw-utl: auto-discovered actions, named-args + PRE/
+#                      POST hooks, do_load_config, do_detect_base_paths,
+#                      do_verify_symlinks, do_help_with, test fixtures.
+#   3.6.4  2026-04-30  Sync point with nda-edw-utl (full feature set, downstream).
+#   2.x    2024-08     RUN_UNIT var resolution, OS-distro vars hardening
+#                      (debian/suse/fedora), do_set_vars_v204 era.
+#   1.1    2024-02     do_log split into a truly re-usable helper; DIR -> PATH
+#                      naming refactor across the framework (<REDACTED>).
+#   1.0.3  2023-01-11  First tagged release: limited support to invoke run from
+#                      non-symlink <<PRODUCT_DIR>>/run + do_zip_me + per-distro
+#                      set-vars-on-<<os>> hooks.
+#
+# When copying this file into a downstream project: bump the version above and
+# append a new entry describing the local change. Keep the banner intact.
+#==============================================================================
 #
 # Minimalistic run.sh framework
 # usage: ./run --help
@@ -288,8 +312,8 @@ do_set_vars() {
   unit_run_dir=$(perl -e 'use File::Basename; use Cwd "abs_path"; print dirname(abs_path(@ARGV[0]));' -- "$0")
   declare -gx RUN_UNIT="$(cd "${unit_run_dir:-}" && basename "$(pwd)").sh" && export RUN_UNIT
   declare -gx PROJ_PATH="$(cd "${unit_run_dir:-}/../../.." && pwd)" && export PROJ_PATH
-  declare -gx ORG_APP_PATH="$(cd "${unit_run_dir:-}/../../../.." && pwd)" && export ORG_APP_PATH
-  declare -gx APP_PATH="${ORG_APP_PATH}" && export APP_PATH
+  declare -gx APP_PATH="$(cd "${unit_run_dir:-}/../../../.." && pwd)" && export APP_PATH
+  declare -gx ORG_APP_PATH="${APP_PATH}" && export ORG_APP_PATH
   declare -gx ORG_PATH="$(cd "${unit_run_dir:-}/../../../../.." && pwd)" && export ORG_PATH
   declare -gx BASE_PATH="$(cd "${unit_run_dir:-}/../../../../../.." && pwd)" && export BASE_PATH
   _above_base=$(dirname "${BASE_PATH}") && declare -gx VAR_DIR="${VAR_DIR:-${_above_base%/}/var}" && export VAR_DIR
@@ -301,8 +325,13 @@ do_set_vars() {
     declare -gx FRW_PATH="" && export FRW_PATH
   fi
   do_ensure_logical_link
+  # Path-derived building blocks. Env override wins; otherwise derived from the
+  # canonical layout: BASE_PATH/ORG/APP/APP-PROJ_KIND.
+  declare -gx ORG="${ORG:-$(basename "${ORG_PATH}")}" && export ORG
+  declare -gx APP="${APP:-$(basename "${APP_PATH}")}" && export APP
   declare -gx PROJ="$(basename "${PROJ_PATH:-}")" && export PROJ
-  
+  declare -gx PROJ_KIND="${PROJ_KIND:-${PROJ#${APP}-}}" && export PROJ_KIND
+
   declare -gx USER="${USER:-$(id -un)}" && export USER
   declare -gx HOST_NAME="$(hostname -s)" && export HOST_NAME
   declare -gx LOG_DIR="" && export LOG_DIR
