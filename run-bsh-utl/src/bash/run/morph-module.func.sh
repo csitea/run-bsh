@@ -1,12 +1,11 @@
 #!/bin/bash
-#
-# create a kind of morphed clone module of the source module specified
-# usage:
-# to "morph" the run.sh into a foo-bar module do:
-# SRC_MODULE=run.sh TGT_MODULE=foo-bar ./run -a do_morph_module
-# to "morph" the foo-bar into a foo-baz module do:
-# SRC_MODULE=foo-bar TGT_MODULE=foo-baz ./run -a do_morph_module
-#
+#------------------------------------------------------------------------------
+# @description Creates a morphed clone of a source module by renaming strings
+# @description and directory/file paths.
+# @param SRC_MODULE (required) - The name of the source module.
+# @param TGT_MODULE (required) - The name of the target module.
+# @example SRC_MODULE=run.sh TGT_MODULE=foo-bar ./run -a do_morph_module
+#------------------------------------------------------------------------------
 do_morph_module() {
   do_require_var SRC_MODULE ${SRC_MODULE:-}
   do_require_var TGT_MODULE ${TGT_MODULE:-}
@@ -104,3 +103,4 @@ do_morph_module() {
 
   EXIT_CODE="0"
 }
+# run-bsh ::: v3.7.0

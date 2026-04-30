@@ -29,3 +29,4 @@ echo "--- Case 2: Custom getopts (-n, -f) ---"
 echo ""
 echo "--- Case 3: Verify required arg validation via _args hook ---"
 ./run -a test-named-args --name "Validator"
+# run-bsh ::: v3.7.0

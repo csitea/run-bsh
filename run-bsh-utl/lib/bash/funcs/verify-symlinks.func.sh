@@ -46,3 +46,4 @@ do_verify_symlinks() {
   fi
   return 0
 }
+# run-bsh ::: v3.7.0

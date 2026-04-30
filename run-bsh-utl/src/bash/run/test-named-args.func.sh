@@ -19,3 +19,4 @@ do_test_named_args() {
     do_log "INFO Force mode is DISABLED."
   fi
 }
+# run-bsh ::: v3.7.0

@@ -59,3 +59,4 @@ do_require_bin() {
     return 11
   fi
 }
+# run-bsh ::: v3.7.0

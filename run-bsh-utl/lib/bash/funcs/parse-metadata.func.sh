@@ -104,3 +104,4 @@ do_has_metadata() {
   count=$(do_parse_metadata "$file_path" "description" | grep -c "^description=") || count=0
   [[ $count -gt 0 ]]
 }
+# run-bsh ::: v3.7.0

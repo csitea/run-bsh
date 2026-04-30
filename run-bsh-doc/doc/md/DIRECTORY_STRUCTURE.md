@@ -2,16 +2,59 @@
 
 `run-bsh` expects a specific directory layout to function correctly and to facilitate cross-project replication.
 
+## Path Building Blocks
+
+Every project lives at a path composed of four canonical tokens:
+
+```
+${BASE_PATH} / ${ORG} / ${APP} / ${APP}-${PROJ_KIND}
+```
+
+For this repository:
+
+```
+/opt        /csi   /run-bsh   /run-bsh-utl
+└─BASE_PATH └─ORG  └─APP      └─PROJ  (= ${APP}-${PROJ_KIND}, where PROJ_KIND=utl)
+```
+
+| Block       | Example value | Meaning |
+|-------------|---------------|---------|
+| `BASE_PATH` | `/opt`        | Host root. Auto-detected by `do_detect_base_paths`; falls back to `$HOME/opt` on non-sudo boxes. |
+| `ORG`       | `csi`         | Organization slug. Derived from `basename "$ORG_PATH"`. |
+| `APP`       | `run-bsh`     | Application name (the umbrella). Multi-token allowed (hyphens permitted). Derived from `basename "$APP_PATH"`. |
+| `PROJ`      | `run-bsh-utl` | Module / project leaf directory. Always equals `${APP}-${PROJ_KIND}`. |
+| `PROJ_KIND` | `utl`         | Role of the module: `utl` (utility/code), `doc` (documentation), `dat` (data), `cnf` (config), `inf` (infrastructure), …. Derived as `${PROJ#${APP}-}`. |
+
+Derived path globals exported by `run.sh:do_set_vars`:
+
+| Variable      | Value                                       |
+|---------------|---------------------------------------------|
+| `BASE_PATH`   | `/opt`                                       |
+| `ORG_PATH`    | `${BASE_PATH}/${ORG}`                       |
+| `APP_PATH`    | `${ORG_PATH}/${APP}`                        |
+| `PROJ_PATH`   | `${APP_PATH}/${PROJ}`                       |
+| `VAR_DIR`     | sibling `var` root (`/var` or `$HOME/var`)  |
+
+`ORG_APP_PATH` is kept as a backwards-compatible alias of `APP_PATH`.
+
+## Override
+
+All four building blocks are derived from the path layout. Any of them can be overridden by exporting it before invoking `run`:
+
+```bash
+ORG=foo APP=foo-bar ./run -a do_<action>
+```
+
 ## Global Layout
 
 Typically, projects are organized under a base path by organization and application:
 
 ```text
 /opt/
-└── csi/
-    └── run-bsh/
-        ├── run-bsh-doc/  # Documentation project
-        └── run-bsh-utl/  # Utils project (contains run-bsh)
+└── csi/                        # ORG
+    └── run-bsh/                # APP
+        ├── run-bsh-doc/        # PROJ (PROJ_KIND=doc)  — Documentation project
+        └── run-bsh-utl/        # PROJ (PROJ_KIND=utl)  — Utils project (contains run-bsh)
 ```
 
 ## Utility Project Layout (`-utl`)
@@ -36,4 +79,4 @@ run-bsh-utl/
 
 ## Replication
 
-The framework includes actions to replicate directories and files between projects, maintaining consistency across the ecosystem. See `RUN_ACTIONS.md` for `do_clone_*` actions.
+The framework includes actions to replicate directories and files between projects, maintaining consistency across the ecosystem. See `RUN_ACTIONS.md` for `do_clone_*` actions. Replication targets are computed as `${BASE_PATH}/${TGT_ORG}/${TGT_APP}/${TGT_APP}-${PROJ_KIND}`; the source-to-target relative path is preserved.

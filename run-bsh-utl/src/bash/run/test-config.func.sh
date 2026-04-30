@@ -8,3 +8,4 @@ do_test_config() {
   do_log "INFO Checking loaded variables:"
   do_log "INFO OVERRIDE_VAR: ${OVERRIDE_VAR:-not_set}"
 }
+# run-bsh ::: v3.7.0

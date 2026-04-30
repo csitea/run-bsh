@@ -82,3 +82,4 @@ do_log() {
   *) echo "$msg" | tee -a $log_file ;;
   esac
 }
+# run-bsh ::: v3.7.0

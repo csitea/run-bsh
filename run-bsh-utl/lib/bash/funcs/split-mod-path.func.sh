@@ -44,3 +44,4 @@ do_split_mod_path() {
 
   export PROJ_NAME PROJ_KIND PROJ_ROOT PROJ_REL_PATH
 }
+# run-bsh ::: v3.7.0

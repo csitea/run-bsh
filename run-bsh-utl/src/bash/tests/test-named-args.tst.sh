@@ -69,3 +69,4 @@ fi
 
 echo "--- Summary: $pass passed, $fail failed ---"
 [[ $fail -eq 0 ]]
+# run-bsh ::: v3.7.0
