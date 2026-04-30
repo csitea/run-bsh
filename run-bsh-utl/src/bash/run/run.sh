@@ -214,32 +214,39 @@ do_flush_screen() {
 do_log() {
   print_ok() {
     GREEN_COLOR="\033[0;32m"
-    DEFAULT="\033[0m"
-    echo -e "${GREEN_COLOR} ✔ ${1:-} ${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${GREEN_COLOR} ✔ ${1:-} ${DEFAULT_COLOR}"
   }
 
   print_warning() {
     YELLOW_COLOR="\033[33m"
-    DEFAULT="\033[0m"
-    echo -e "${YELLOW_COLOR} ⚠ ${1:-} ${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${YELLOW_COLOR} ⚠ ${1:-} ${DEFAULT_COLOR}"
   }
 
   print_info() {
     BLUE_COLOR="\033[0;34m"
-    DEFAULT="\033[0m"
-    echo -e "${BLUE_COLOR} ℹ ${1:-} ${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${BLUE_COLOR} ℹ ${1:-} ${DEFAULT_COLOR}"
   }
+
 
   print_debug() {
     CYAN_COLOR="\033[0;36m"
-    DEFAULT="\033[0m"
-    echo -e "${CYAN_COLOR} ⚙ ${1:-} ${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${CYAN_COLOR} ⚙ ${1:-} ${DEFAULT_COLOR}"
   }
 
   print_fail() {
     RED_COLOR="\033[0;31m"
-    DEFAULT="\033[0m"
-    echo -e "${RED_COLOR} ❌ [NOK] ${1:-}${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${RED_COLOR} ❌ [NOK] ${1:-}${DEFAULT_COLOR}"
+  }
+
+  print_fatal() {
+    RED_COLOR="\033[0;31m"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${RED_COLOR} 💣 [FATAL] ${1:-}${DEFAULT_COLOR}"
   }
 
   type_of_msg=$(echo $* | cut -d" " -f1)
@@ -257,28 +264,33 @@ do_log() {
     msg=" $type_padded $(date "+%Y-%m-%d %H:%M:%S %Z") [${PROJ:-}][@${HOST_NAME:-}] [$$] $action $rest_of_msg"
   fi
 
-  if [[ -z "${LOG_DIR:-}" ]]; then
+  local _log_dir
+  if [[ -n "${LOG_DIR:-}" ]]; then
+    _log_dir="$LOG_DIR"
+    mkdir -p "$_log_dir" 2>/dev/null || true
+  else
     local _primary="/var/csi/run-bsh/run-bsh-utl"
     local _fallback="/opt/csi/run-bsh/run-bsh-utl/dat/log"
+
     if mkdir -p "$_primary" 2>/dev/null && [[ -w "$_primary" ]]; then
-      LOG_DIR="$_primary"
+      _log_dir="$_primary"
     else
-      LOG_DIR="$_fallback"
-      mkdir -p "$LOG_DIR" 2>/dev/null || true
+      _log_dir="$_fallback"
+      mkdir -p "$_log_dir" 2>/dev/null || true
     fi
   fi
-  declare LOG_DIR && export LOG_DIR
-  LOG_FILE="$LOG_DIR/${PROJ:-run}.$(date "+%Y%m%d").log"
-  declare LOG_FILE && export LOG_FILE
-  mkdir -p "${LOG_DIR}" 2>/dev/null || true
+  log_dir="$_log_dir"
+  export LOG_DIR="$log_dir"
+  log_file="$log_dir/${PROJ:-run}."$(date "+%Y%m%d")'.log'
+
   case "$type_of_msg" in
-  'FATAL') print_fail "$msg" | tee -a "${LOG_FILE}" ;;
-  'ERROR') print_fail "$msg" | tee -a "${LOG_FILE}" ;;
-  'WARNING'|'WARN') print_warning "$msg" | tee -a "${LOG_FILE}" ;;
-  'INFO') print_info "$msg" | tee -a "${LOG_FILE}" ;;
-  'OK') print_ok "$msg" | tee -a "${LOG_FILE}" ;;
-  'DEBUG') print_debug "$msg" | tee -a "${LOG_FILE}" ;;
-  *) echo "$msg" | tee -a "${LOG_FILE}" ;;
+  'FATAL') print_fatal "$msg" | tee -a $log_file ;;
+  'ERROR') print_fail "$msg" | tee -a $log_file ;;
+  'WARNING'|'WARN') print_warning "$msg" | tee -a $log_file ;;
+  'INFO') print_info "$msg" | tee -a $log_file ;;
+  'OK')    print_ok    "$msg" | tee -a $log_file ;;
+  'DEBUG') print_debug "$msg" | tee -a $log_file ;;
+  *) echo "$msg" | tee -a $log_file ;;
   esac
 }
 
