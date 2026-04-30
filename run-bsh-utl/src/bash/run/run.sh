@@ -257,12 +257,15 @@ do_log() {
     msg=" $type_padded $(date "+%Y-%m-%d %H:%M:%S %Z") [${PROJ:-}][@${HOST_NAME:-}] [$$] $action $rest_of_msg"
   fi
 
-  if [[ -n "${PROJ:-}" && -n "${ORG:-}" ]]; then
-    LOG_DIR="${VAR_DIR:-/var}/${ORG}/${ORG}-${APP:-bsh}/${PROJ}/dat/log/bash"
-    mkdir -p "$LOG_DIR" 2>/dev/null || LOG_DIR="${PROJ_PATH:-$(pwd)}/dat/log/bash"
-  elif [[ -z "${LOG_DIR:-}" ]]; then
-    LOG_DIR="${PROJ_PATH:-$(pwd)}/dat/log/bash"
-    mkdir -p "$LOG_DIR" 2>/dev/null || true
+  if [[ -z "${LOG_DIR:-}" ]]; then
+    local _primary="/var/csi/run-bsh/run-bsh-utl"
+    local _fallback="/opt/csi/run-bsh/run-bsh-utl/dat/log"
+    if mkdir -p "$_primary" 2>/dev/null && [[ -w "$_primary" ]]; then
+      LOG_DIR="$_primary"
+    else
+      LOG_DIR="$_fallback"
+      mkdir -p "$LOG_DIR" 2>/dev/null || true
+    fi
   fi
   declare LOG_DIR && export LOG_DIR
   LOG_FILE="$LOG_DIR/${PROJ:-run}.$(date "+%Y%m%d").log"
