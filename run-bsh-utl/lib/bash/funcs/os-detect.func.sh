@@ -59,7 +59,7 @@ do_set_os_env() {
 # Fallback when RELAY_USER doesn't exist on this box is essential: otherwise
 # every ${SUDO_YSG} <cmd> expands to 'sudo -u ysg <cmd>' and fails silently
 # with "unknown user: ysg" on boxes where that account isn't provisioned
-# (e.g. on tnk/nda hostname the primary user is winusr, not ysg).
+# (e.g. on tnk/csi hostname the primary user is winusr, not ysg).
 do_set_sudo_vars() {
   local _os
   _os=$(do_which_os)

@@ -1,6 +1,6 @@
 #!/bin/bash
 #------------------------------------------------------------------------------
-# @description Standard helper to parse named CLI arguments (--flag value) into environment variables.
+# @description standard helper to parse named CLI arguments (--flag value) into environment variables.
 # @description Actions can call this inside their own _args() hook to avoid boilerplate.
 #------------------------------------------------------------------------------
 do_parse_args() {

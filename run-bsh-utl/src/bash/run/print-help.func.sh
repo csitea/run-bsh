@@ -53,7 +53,7 @@ EOF_USAGE
     fi
 
     if [[ -n "$desc" ]]; then
-      # Truncate at last word boundary to avoid mid-word cuts
+      # Truncate at last word boucsiry to avoid mid-word cuts
       if [[ ${#desc} -gt $col2 ]]; then
         local short="${desc:0:$(( col2 - 3 ))}"
         short="${short% *}"   # trim to last complete word
