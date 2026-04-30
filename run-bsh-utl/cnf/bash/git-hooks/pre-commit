@@ -1,0 +1,47 @@
+#!/bin/bash
+#------------------------------------------------------------------------------
+# Canonical pre-commit hook — installed into .git/hooks/pre-commit by
+# do_install_git_hooks. Source of truth is this file under
+# $PROJ_PATH/cnf/bash/git-hooks/pre-commit so the hook is versioned.
+#
+# Rejects:
+#   1. Staged files under doc/img/ or doc/pdf/
+#      (these paths are symlinks into /var/ — binaries must never commit into /opt/).
+#   2. Staged files whose realpath escapes the repo working tree
+#      (catches force-added symlinks pointing into /var/ or foreign repos).
+#
+# Bypassable with --no-verify; treat that as forbidden by team convention.
+#------------------------------------------------------------------------------
+set -e
+
+repo_root="$(git rev-parse --show-toplevel)"
+staged=$(git diff --cached --name-only --diff-filter=AM)
+
+[[ -z "$staged" ]] && exit 0
+
+# Check 1: runtime-bound subtrees must never appear in git
+bad_paths=$(echo "$staged" | grep -E '^(.*/)?doc/(img|pdf)/' || true)
+if [[ -n "$bad_paths" ]]; then
+  echo "ERROR: pre-commit hook: refusing to commit files under doc/img/ or doc/pdf/:" >&2
+  echo "$bad_paths" | sed 's/^/  /' >&2
+  echo "" >&2
+  echo "These paths are symlinks into /var/ runtime storage. Binaries must never" >&2
+  echo "be committed to /opt/ source trees. To archive generated images, use" >&2
+  echo "do_zip_doc_proj (doc bundle) — not git." >&2
+  exit 1
+fi
+
+# Check 2: no staged file may resolve outside the repo working tree
+while IFS= read -r rel; do
+  [[ -z "$rel" ]] && continue
+  real=$(readlink -f -- "$repo_root/$rel" 2>/dev/null || true)
+  [[ -z "$real" ]] && continue
+  if [[ "$real" != "$repo_root"/* && "$real" != "$repo_root" ]]; then
+    echo "ERROR: pre-commit hook: refusing to commit $rel" >&2
+    echo "       resolves outside repo to: $real" >&2
+    echo "       (likely a force-added symlink into /var/ or another repo)" >&2
+    exit 1
+  fi
+done <<< "$staged"
+
+exit 0
