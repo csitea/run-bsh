@@ -1,0 +1,31 @@
+# Quartz build artifacts
+public/
+.quartz-cache/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# Symlinks for /var assets (per 05.13.Pics-with-DS spec)
+doc/md/img
+doc/img
+
+# Image assets — never committed to git; sourced from /var or
+# gs://${ORG}-${APP}-doc-assets
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+*.bmp
+*.ico
+
+# Vault policy: under doc/md/, ONLY *.md files are tracked. Everything else
+# (binaries, generated artifacts, hidden files) is excluded.
+doc/md/**/*
+!doc/md/**/
+!doc/md/**/*.md

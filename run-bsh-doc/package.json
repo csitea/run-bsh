@@ -1,0 +1,12 @@
+{
+  "name": "run-bsh-doc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Quartz 4 static site for Run-Bsh Obsidian vault",
+  "scripts": {
+    "build": "npx quartz build",
+    "serve": "npx quartz build --serve",
+    "sync":  "npx quartz sync"
+  },
+  "engines": { "node": ">=18.0.0" }
+}
