@@ -65,13 +65,13 @@ Build in this context means "syntax check, autoformat and build ( if applicable)
 
 to replicate 
 ```bash
-SRC_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/ bash /opt/csi/run-bsh/run-bsh-utl/run -a do_replicate_dir_to_bas
-SRC_PATH=/opt/csi/run-bsh/run-bsh-wui/.github/ bash /opt/csi/run-bsh/run-bsh-utl/run -a do_replicate_dir_to_bas
-SRC_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/run/run.sh bash /opt/csi/run-bsh/run-bsh-utl/run -a do_replicate_file_to_bas
+SRC_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/ bash /opt/csi/run-bsh/run-bsh-utl/run -a do_clone_dir_to_bas
+SRC_PATH=/opt/csi/run-bsh/run-bsh-wui/.github/ bash /opt/csi/run-bsh/run-bsh-utl/run -a do_clone_dir_to_bas
+SRC_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/run/run.sh bash /opt/csi/run-bsh/run-bsh-utl/run -a do_clone_file_to_bas
 ```
 
 ```bash
-TGT_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/run bash /opt/csi/run-bsh/run-bsh-utl/run -a do_replicate_dir_from_bas
-TGT_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/run/run.sh bash /opt/csi/run-bsh/run-bsh-utl/run -a do_replicate_file_from_bas
+TGT_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/run bash /opt/csi/run-bsh/run-bsh-utl/run -a do_clone_dir_from_bas
+TGT_PATH=/opt/csi/run-bsh/run-bsh-utl/src/bash/run/run.sh bash /opt/csi/run-bsh/run-bsh-utl/run -a do_clone_file_from_bas
 ```
 
