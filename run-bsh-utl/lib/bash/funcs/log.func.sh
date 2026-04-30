@@ -38,6 +38,12 @@ do_log() {
     echo -e "${RED_COLOR} ❌ [NOK] ${1:-}${DEFAULT_COLOR}"
   }
 
+  print_fatal() {
+    RED_COLOR="\033[0;31m"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${RED_COLOR} 💣 [FATAL] ${1:-}${DEFAULT_COLOR}"
+  }
+
   type_of_msg=$(echo $* | cut -d" " -f1)
   action=$(echo $* | cut -d" " -f2)
   rest_of_msg=$(echo $* | cut -d" " -f3-)
@@ -73,7 +79,7 @@ do_log() {
   log_file="$log_dir/${PROJ:-run}."$(date "+%Y%m%d")'.log'
 
   case "$type_of_msg" in
-  'FATAL') print_fail "$msg" | tee -a $log_file ;;
+  'FATAL') print_fatal "$msg" | tee -a $log_file ;;
   'ERROR') print_fail "$msg" | tee -a $log_file ;;
   'WARNING'|'WARN') print_warning "$msg" | tee -a $log_file ;;
   'INFO') print_info "$msg" | tee -a $log_file ;;
