@@ -67,11 +67,10 @@ EOF_USAGE
 
   echo ""
   echo "   Actions support named arguments (--flags):"
-  echo "     ./run -a do_help_with --search jira"
-  echo "     ./run -a do_zip_jira_ticket --ticket <REDACTED> --slim 1"
+  echo "     ./run -a do_help_with --search zip"
   echo ""
   echo "   Environment variables still work (backward compatible):"
-  echo "     SRCH=jira ./run -a do_help_with"
+  echo "     SRCH=zip ./run -a do_help_with"
   echo ""
   echo "   Tip: Use ./run -a do_help_with --search <keyword> for detailed help."
   echo ""
