@@ -26,8 +26,7 @@ if [[ -n "$bad_paths" ]]; then
   echo "$bad_paths" | sed 's/^/  /' >&2
   echo "" >&2
   echo "These paths are symlinks into /var/ runtime storage. Binaries must never" >&2
-  echo "be committed to /opt/ source trees. To archive generated images, use" >&2
-  echo "do_zip_doc_proj (doc bundle) — not git." >&2
+  echo "be committed to /opt/ source trees." >&2
   exit 1
 fi
 
