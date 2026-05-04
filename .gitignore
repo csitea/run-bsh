@@ -1,0 +1,5 @@
+
+# proj.cnf is auto-derived by do_load_config; never tracked
+**/cnf/bash/proj.cnf
+**/cnf/bash/proj.box.cnf
+**/cnf/bash/*.cnf
