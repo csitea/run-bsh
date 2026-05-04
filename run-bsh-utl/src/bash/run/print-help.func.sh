@@ -77,6 +77,6 @@ EOF_USAGE
   echo ""
   echo "   Tip: Use ./run -a do_help_with --search <keyword> for detailed help."
   echo ""
-  exit 1
+  export EXIT_CODE=0
 }
 # run-bsh ::: v3.8.0
