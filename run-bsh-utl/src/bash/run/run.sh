@@ -391,10 +391,10 @@ main "$@"
 #   3.7.0  2026-04-30  Forked back to csitea/run-bsh as a minimal bootstrap.
 #                      Slimmed: dropped Make, Docker, Confluence/Jira/GCP
 #                      actions; nested under run-bsh-utl/. Imported from
-#                      nda-edw-utl: auto-discovered actions, named-args + PRE/
+#                      run-bsh-utl: auto-discovered actions, named-args + PRE/
 #                      POST hooks, do_load_config, do_detect_base_paths,
 #                      do_verify_symlinks, do_help_with, test fixtures.
-#   3.6.4  2026-04-30  Sync point with nda-edw-utl (full feature set, downstream).
+#   3.6.4  2026-04-30  Sync point with run-bsh-utl (full feature set, downstream).
 #   2.x    2024-08     RUN_UNIT var resolution, OS-distro vars hardening
 #                      (debian/suse/fedora), do_set_vars_v204 era.
 #   1.1    2024-02     do_log split into a truly re-usable helper; DIR -> PATH

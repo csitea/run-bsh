@@ -63,7 +63,7 @@ EOF_USAGE
     else
       printf "\t ./run -a %s;\n" "$action_name"
     fi
-  done < <(find "$proj/src/bash/run/" "$proj/lib/bash/funcs/" -name "*.func.sh" 2>/dev/null | sort)
+  done < <(find "$proj/src/bash/run/" -name "*.func.sh" 2>/dev/null | sort)
 
   echo ""
   echo "   Actions support named arguments (--flags):"
@@ -79,4 +79,4 @@ EOF_USAGE
   echo ""
   exit 1
 }
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

@@ -1,5 +1,9 @@
-
 #!/bin/bash
+#------------------------------------------------------------------------------
+# @description Unzips and activates a predefined list of WordPress plugins using WP-CLI.
+# @example ./install-all-wp-plugins.sh
+# @prereq WP-CLI, unzip, sudo privileges as www-data, WordPress installation at /var/www/html
+#------------------------------------------------------------------------------
 
 # Define the WordPress root directory
 WP_PATH="/var/www/html"
@@ -62,4 +66,4 @@ echo "All plugins processed."
 # | wp-fastest-cache           | inactive | none   | 1.2.9   |                | off         |
 # | wp-file-manager            | active   | none   | 7.2.9   |                | off         |
 # +----------------------------+----------+--------+---------+----------------+-------------+
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

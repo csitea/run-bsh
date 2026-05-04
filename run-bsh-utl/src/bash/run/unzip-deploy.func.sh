@@ -5,7 +5,7 @@
 # @description Unzip a project archive (built from /) and rsync its contents
 # @description back to their original absolute paths under DEPLOY_ROOT.
 # @description The zip is expected to contain paths relative to / — e.g.
-# @description   opt/nda/nda-edw/nda-edw-utl/src/bash/run/foo.sh
+# @description   opt/csi/run-bsh/run-bsh-utl/src/bash/run/foo.sh
 # @description The archive is extracted to /tmp/unzip_deploy_<timestamp>/,
 # @description then the following is run:
 # @description   rsync -rl --delete /tmp/unzip_deploy_<ts>/ <DEPLOY_ROOT>/
@@ -18,8 +18,8 @@
 # @param DRY_RUN     (optional) - Set to 1 to show what would change without writing
 # @param KEEP_TMP    (optional) - Set to 1 to keep /tmp/unzip_deploy_<ts>/ after success
 # @prereq unzip rsync
-# @example ZIP_FILE=/media/usb/samsung-usb/var/nda/nda-edw/nda-edw-all/dat/zip/nda-edw-utl.3.6.4.zip ./run -a do_unzip_deploy
-# @example ZIP_FILE=/var/nda/nda-edw/nda-edw-all/dat/zip/nda-edw-utl.3.6.4.zip DRY_RUN=1 ./run -a do_unzip_deploy
+# @example ZIP_FILE=/media/usb/samsung-usb/var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-utl.3.6.4.zip ./run -a do_unzip_deploy
+# @example ZIP_FILE=/var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-utl.3.6.4.zip DRY_RUN=1 ./run -a do_unzip_deploy
 # @example ZIP_FILE=... DEPLOY_ROOT=/mnt/staging ./run -a do_unzip_deploy
 # @example ZIP_FILE=... KEEP_TMP=1 ./run -a do_unzip_deploy
 # @arg --zip-file    ZIP_FILE
@@ -95,4 +95,4 @@ do_unzip_deploy() {
 
   return 0
 }
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

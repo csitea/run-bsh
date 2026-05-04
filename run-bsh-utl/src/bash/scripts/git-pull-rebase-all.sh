@@ -1,4 +1,9 @@
 #!/bin/bash
+#------------------------------------------------------------------------------
+# @description Recursively finds and updates all git repositories in the parent directory using rebase.
+# @example ./git-pull-rebase-all.sh
+# @prereq git, find
+#------------------------------------------------------------------------------
     current_dir=$(pwd)/..
 
     # Find all git repositories and execute git pull --rebase
@@ -11,4 +16,4 @@
         cd "$current_dir" || return
     done
 
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

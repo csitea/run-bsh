@@ -1,0 +1,224 @@
+{
+  "main": {
+    "id": "f7de07d383c25dcc",
+    "type": "split",
+    "children": [
+      {
+        "id": "e9b8dc305277dd12",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ebb819bd51721405",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png"
+              },
+              "icon": "lucide-image",
+              "title": "CORE_CONCEPTS"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8d174a6984a5aa8d",
+    "type": "split",
+    "children": [
+      {
+        "id": "2a2a4291f8fb5277",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a33233df71957d87",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "93317a2f62972375",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "4f8eb98d03a58e05",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "4d58a9f671f5b685",
+    "type": "split",
+    "children": [
+      {
+        "id": "e8c6a1cbe82d7e54",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0a391ab13a17da38",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for CORE_CONCEPTS"
+            }
+          },
+          {
+            "id": "4529c839fbe61eba",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from CORE_CONCEPTS"
+            }
+          },
+          {
+            "id": "782751fb16634a29",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "3bf3b28a2582b57d",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "c819ab4f594244bb",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of CORE_CONCEPTS"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "ebb819bd51721405",
+  "lastOpenFiles": [
+    "run-bsh-utl/cnf/bash/proj.cnf",
+    "run-bsh-doc/doc/md/CORE_CONCEPTS.md",
+    "run-bsh-doc/doc/md/shell-actions/test-hooks.png",
+    "run-bsh-doc/doc/md/shell-actions/test-config.png",
+    "run-bsh-doc/doc/md/shell-actions/print-help.png",
+    "run-bsh-doc/doc/md/shell-actions/help-with.png",
+    "run-bsh-doc/doc/md/run-bsh-utl.SYG.png",
+    "run-bsh-doc/doc/md/run-bsh-utl.NMC.png",
+    "run-bsh-doc/doc/md/run-bsh-utl.DEV.png",
+    "run-bsh-doc/doc/md/INDEX.png",
+    "run-bsh-doc/doc/md/specs/symlinks-portable.spec.png",
+    "run-bsh-doc/doc/md/specs/run-bsh-utl.Logging.spec.png",
+    "run-bsh-doc/doc/md/DIRECTORY_STRUCTURE.md",
+    "run-bsh-doc/doc/md/run-bsh-utl.NMC.md",
+    "run-bsh-doc/doc/md/run-bsh-utl.DEV.md",
+    "run-bsh-utl/RELEASE.md",
+    "run-bsh-doc/doc/md/run-bsh-utl.SYG.md",
+    "run-bsh-utl/src/bash/run/fork-morph-proj-from-src-proj.func.sh",
+    "run-bsh-doc/quartz.layout.ts",
+    "run-bsh-doc/quartz.config.ts",
+    "run-bsh-doc/package.json",
+    "run-bsh-doc/doc/md/specs/symlinks-portable.spec.md",
+    "run-bsh-doc/doc/md/specs/run-bsh-utl.Logging.spec.md",
+    "run-bsh-doc/doc/md/specs/run-bsh-utl.Configurability.spec.md",
+    "run-bsh-doc/doc/md/shell-actions/test-hooks.md",
+    "run-bsh-doc/doc/md/shell-actions/test-config.md",
+    "run-bsh-doc/doc/md/shell-actions/print-help.md",
+    "run-bsh-doc/doc/md/shell-actions/help-with.md",
+    "run-bsh-doc/doc/md/specs",
+    "run-bsh-doc/doc/md/shell-actions",
+    "run-bsh-doc/doc/md/SCRIPTS.md",
+    "run-bsh-doc/doc/md/INDEX.md",
+    "run-bsh-doc/doc/md",
+    "run-bsh-doc/doc",
+    "run-bsh-doc",
+    "run-bsh-utl/src/bash/run/zip-all-projects.func.sh",
+    "run-bsh-utl/README.md"
+  ]
+}

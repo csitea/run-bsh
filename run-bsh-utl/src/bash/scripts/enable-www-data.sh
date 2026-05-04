@@ -1,4 +1,10 @@
 #!/bin/bash
+#------------------------------------------------------------------------------
+# @description Enables OS login for the www-data user, sets home directory, and configures permissions.
+# @param WWW_PASSWORD (required) - The password to set for the www-data user.
+# @example sudo ./enable-www-data.sh "your_secure_password"
+# @prereq root privileges, expect, usermod
+#------------------------------------------------------------------------------
 
 quit_on() {
     if [ $? -ne 0 ]; then
@@ -62,4 +68,4 @@ echo "OS login for www-data has been enabled with home directory set to $WWW_HOM
 echo "Please ensure you have set a strong password and consider using SSH key authentication."
 
 exit 0
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

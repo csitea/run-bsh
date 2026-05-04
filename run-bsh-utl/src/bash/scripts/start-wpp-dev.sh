@@ -1,4 +1,9 @@
 #!/bin/bash
+#------------------------------------------------------------------------------
+# @description Starts PHP-FPM and Nginx services for the WordPress development environment.
+# @example ./start-wpp-dev.sh
+# @prereq service (sysvinit/systemd), nginx, php7.4-fpm
+#------------------------------------------------------------------------------
 # export NODE_ENV="development"
 
 # WUI_PROJ_PATH=/opt/csi/wpp/admin-tool-js
@@ -25,4 +30,4 @@ nginx
 trap : TERM INT
 sleep infinity &
 wait
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0

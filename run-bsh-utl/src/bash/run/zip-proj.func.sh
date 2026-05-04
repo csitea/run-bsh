@@ -13,10 +13,10 @@
 # @prereq       zip unzip perl
 # @example      SRC_DIR=<REDACTED> ./run -a do_zip_proj                                       # → /var/alc/alc-frw/alc-frw-all/dat/zip/alc-frw.<ver>.<ts>.zip
 # @example      SRC_DIR=/var/alc/alc-frw/alc-frw-doc ./run -a do_zip_proj                           # → /var/alc/alc-frw/alc-frw-all/dat/zip/alc-frw-doc.<ts>.zip
-# @example      SRC_DIR=/opt/nda/nda-edw ./run -a do_zip_proj                                       # → /var/nda/nda-edw/nda-edw-all/dat/zip/nda-edw.<ver>.<ts>.zip
-# @example      SRC_DIR=/opt/nda/nda-edw/nda-edw-utl ./run -a do_zip_proj                           # → /var/nda/nda-edw/nda-edw-all/dat/zip/nda-edw-utl.<ver>.<ts>.zip
-# @example      SRC_DIR=/var/nda/nda-edw/nda-edw-dat ./run -a do_zip_proj                           # → /var/nda/nda-edw/nda-edw-all/dat/zip/nda-edw-dat.<ts>.zip
-# @example      SRC_DIR=/var/nda/nda-edw/nda-edw-doc ./run -a do_zip_proj                           # → /var/nda/nda-edw/nda-edw-all/dat/zip/nda-edw-doc.<ts>.zip
+# @example      SRC_DIR=/opt/csi/run-bsh ./run -a do_zip_proj                                       # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh.<ver>.<ts>.zip
+# @example      SRC_DIR=/opt/csi/run-bsh/run-bsh-utl ./run -a do_zip_proj                           # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-utl.<ver>.<ts>.zip
+# @example      SRC_DIR=/var/csi/run-bsh/run-bsh-dat ./run -a do_zip_proj                           # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-dat.<ts>.zip
+# @example      SRC_DIR=/var/csi/run-bsh/run-bsh-doc ./run -a do_zip_proj                           # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-doc.<ts>.zip
 # @example      SRC_DIR=<REDACTED> DST_DIR=/tmp/zips ./run -a do_zip_proj                     # → /tmp/zips/alc-frw.<ver>.<ts>.zip
 # @example      SRC_DIR=$(pwd) EXCLUDE_FILE_GLOB='.git/*' ./run -a do_zip_proj                      # exclude .git/ in addition to the defaults
 # @example      SRC_DIR=$(pwd) EXCLUDE_FILE_GLOB='secrets/* *.pem dat/cache/*' ./run -a do_zip_proj # multiple patterns (whitespace-separated)
@@ -150,4 +150,4 @@ do_zip_proj() {
   echo "$zip_file"
   echo "$win_path"
 }
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.0
