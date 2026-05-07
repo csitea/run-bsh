@@ -11,20 +11,20 @@
 # @param                          Non-anchored patterns (no leading `*` or `/`) are auto-prefixed with `*/`
 # @param                          so they match anywhere in the tree (e.g. `.git/*` → `*/.git/*`).
 # @prereq       zip unzip perl
-# @example      SRC_DIR=<REDACTED> ./run -a do_zip_proj                                       # → /var/alc/alc-frw/alc-frw-all/dat/zip/alc-frw.<ver>.<ts>.zip
-# @example      SRC_DIR=/var/alc/alc-frw/alc-frw-doc ./run -a do_zip_proj                           # → /var/alc/alc-frw/alc-frw-all/dat/zip/alc-frw-doc.<ts>.zip
-# @example      SRC_DIR=/opt/csi/run-bsh ./run -a do_zip_proj                                       # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh.<ver>.<ts>.zip
-# @example      SRC_DIR=/opt/csi/run-bsh/run-bsh-utl ./run -a do_zip_proj                           # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-utl.<ver>.<ts>.zip
-# @example      SRC_DIR=/var/csi/run-bsh/run-bsh-dat ./run -a do_zip_proj                           # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-dat.<ts>.zip
-# @example      SRC_DIR=/var/csi/run-bsh/run-bsh-doc ./run -a do_zip_proj                           # → /var/csi/run-bsh/run-bsh-all/dat/zip/run-bsh-doc.<ts>.zip
-# @example      SRC_DIR=<REDACTED> DST_DIR=/tmp/zips ./run -a do_zip_proj                     # → /tmp/zips/alc-frw.<ver>.<ts>.zip
+# @example      SRC_DIR=/opt/csi/app-frw ./run -a do_zip_proj                                       # → /var/csi/app-frw/app-frw-all/dat/zip/app-frw.<ver>.<ts>.zip
+# @example      SRC_DIR=/var/csi/app-frw/app-frw-doc ./run -a do_zip_proj                           # → /var/csi/app-frw/app-frw-all/dat/zip/app-frw-doc.<ts>.zip
+# @example      SRC_DIR=/opt/nda/app-edw ./run -a do_zip_proj                                       # → /var/nda/app-edw/app-edw-all/dat/zip/app-edw.<ver>.<ts>.zip
+# @example      SRC_DIR=/opt/nda/app-edw/app-edw-utl ./run -a do_zip_proj                           # → /var/nda/app-edw/app-edw-all/dat/zip/app-edw-utl.<ver>.<ts>.zip
+# @example      SRC_DIR=/var/nda/app-edw/app-edw-dat ./run -a do_zip_proj                           # → /var/nda/app-edw/app-edw-all/dat/zip/app-edw-dat.<ts>.zip
+# @example      SRC_DIR=/var/nda/app-edw/app-edw-doc ./run -a do_zip_proj                           # → /var/nda/app-edw/app-edw-all/dat/zip/app-edw-doc.<ts>.zip
+# @example      SRC_DIR=/opt/csi/app-frw DST_DIR=/tmp/zips ./run -a do_zip_proj                     # → /tmp/zips/app-frw.<ver>.<ts>.zip
 # @example      SRC_DIR=$(pwd) EXCLUDE_FILE_GLOB='.git/*' ./run -a do_zip_proj                      # exclude .git/ in addition to the defaults
 # @example      SRC_DIR=$(pwd) EXCLUDE_FILE_GLOB='secrets/* *.pem dat/cache/*' ./run -a do_zip_proj # multiple patterns (whitespace-separated)
 #------------------------------------------------------------------------------
 do_zip_proj() {
   do_require_bin zip unzip perl
 
-  local src_dir="${SRC_DIR:?SRC_DIR is required — e.g. SRC_DIR=<REDACTED> ./run -a do_zip_proj}"
+  local src_dir="${SRC_DIR:?SRC_DIR is required — e.g. SRC_DIR=/opt/csi/app-frw ./run -a do_zip_proj}"
   src_dir="${src_dir%/}"
 
   if [[ ! -d "$src_dir" ]]; then
@@ -150,4 +150,5 @@ do_zip_proj() {
   echo "$zip_file"
   echo "$win_path"
 }
-# run-bsh ::: v3.8.0
+# doc-hub ::: v1.0.0
+# run-bsh ::: v3.8.1

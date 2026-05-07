@@ -379,7 +379,7 @@ main "$@"
 # Upstream: https://github.com/csitea/run-bsh
 #------------------------------------------------------------------------------
 # Version history (newest first):
-#   3.8.0  2026-04-30  Sync framework primitives from nda-edw-utl: write-probe
+#   3.8.0  2026-04-30  Sync framework primitives from app-edw-utl: write-probe
 #                      in do_detect_base_paths (more reliable than -w on some
 #                      FUSE/NFS filesystems); path-derived LOG_DIR formula in
 #                      do_log (both lib/bash/funcs/log.func.sh and run.sh
@@ -406,4 +406,4 @@ main "$@"
 # When copying this file into a downstream project: bump the version above and
 # append a new entry describing the local change. Keep the banner intact.
 #==============================================================================
-# run-bsh ::: v3.8.0
+# run-bsh ::: v3.8.1
