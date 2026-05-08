@@ -54,19 +54,25 @@ execute_step() {
         _avar=$(echo "$_adef" | awk '{print $2}')
         [[ -n "$_aflag" && -n "$_avar" ]] && _arg_map["$_aflag"]="$_avar"
       done <<< "$_arg_lines"
-      # Parse CLI args against the map
+      # Parse CLI args against the map. Boolean support: a known flag
+      # followed by end-of-args or another --flag is treated as a true bool.
       local _i=0
       while [[ $_i -lt ${#args[@]} ]]; do
         local _flag="${args[$_i]}"
         if [[ "$_flag" == --* && -n "${_arg_map[$_flag]:-}" ]]; then
           local _var="${_arg_map[$_flag]}"
-          _i=$((_i + 1))
-          if [[ $_i -lt ${#args[@]} ]]; then
-            export "$_var"="${args[$_i]}"
-            do_log "DEBUG Parsed: $_flag ${args[$_i]} → $_var=${args[$_i]}"
+          local _next=""
+          (( _i + 1 < ${#args[@]} )) && _next="${args[$_i + 1]}"
+          if [[ -n "$_next" && "$_next" != --* ]]; then
+            export "$_var"="$_next"
+            do_log "DEBUG Parsed: $_flag $_next → $_var=$_next"
+            _i=$((_i + 2))
+            continue
           else
-            do_log "ERROR Flag $_flag requires a value"
-            return 11
+            export "$_var"="true"
+            do_log "DEBUG Parsed: $_flag (boolean) → $_var=true"
+            _i=$((_i + 1))
+            continue
           fi
         fi
         _i=$((_i + 1))
@@ -77,8 +83,10 @@ execute_step() {
 
   # Validate required @param metadata before running (if available)
   if [[ -n "$func_file" ]] && type do_validate_params &>/dev/null; then
-    if ! do_validate_params "$func_file"; then
-      return $?
+    do_validate_params "$func_file"
+    local _vp_rc=$?
+    if [[ $_vp_rc -ne 0 ]]; then
+      return $_vp_rc
     fi
   fi
 
@@ -121,6 +129,7 @@ main() {
   main_exec "$@" \
     > >(tee $main_log_dir/${RUN_UNIT:-run.sh}.$ts.out.log) \
     2> >(tee $main_log_dir/${RUN_UNIT:-run.sh}.$ts.err.log)
+  exit $?
 }
 
 main_exec() {
@@ -132,7 +141,9 @@ main_exec() {
   do_verify_symlinks
   test -z "${actions:-}" && actions=' do_print_help '
   do_run_actions "$actions" "${args[@]:2}"
-  do_finalize
+  local _run_rc=$?
+  do_finalize "$_run_rc"
+  return $_run_rc
 }
 
 # Framework core dependencies
@@ -199,10 +210,14 @@ do_run_actions() {
   }
 
   run_funcs="$(echo -e "${run_funcs}" | sed -e 's/^[[:space:]]*//;/^$/d')"
+  local _final_rc=0
   while read -r run_func; do
     cd ${PROJ_PATH:-}
     execute_step "$run_func" "${args[@]}"
+    local _step_rc=$?
+    (( _step_rc != 0 )) && _final_rc=$_step_rc
   done < <(echo "$run_funcs")
+  return $_final_rc
 }
 
 
@@ -331,24 +346,32 @@ do_ensure_logical_link() {
 }
 
 do_finalize() {
+  local _rc="${1:-$?}"
   do_log "INFO OK $RUN_UNIT's run completed"
-  exit 0
+  return "$_rc"
 }
 
 # Optimised function loader: sources all *.func.sh files once and builds
 # a global associative array (_func_to_file) mapping each do_* function
-# name to its source file.  Uses bash glob expansion instead of ls/find
-# subprocesses, and derives function names from the filename convention
-# (kebab-case.func.sh → do_snake_case) instead of spawning a subprocess
-# per file via get_function_list.
+# name to its source file.  Discovery is a single recursive `find` across
+# lib/bash/funcs/ and src/bash/run/, so any subdirectory under
+# src/bash/run/ (e.g. src/bash/run/zip/, src/bash/run/morph/,
+# src/bash/run/test/, src/bash/run/help/) is picked up automatically — no
+# need to list subdirs explicitly.  Function names are derived from the
+# filename convention (kebab-case.func.sh → do_snake_case) instead of
+# spawning a subprocess per file via get_function_list.
 # Convention: node-jira-bind.func.sh MUST define do_node_jira_bind().
 do_load_functions() {
   declare -gA _func_to_file
   local f fname func_name
+  local search_dirs=()
 
-  for f in "${PROJ_PATH:-}"/lib/bash/funcs/*.func.sh \
-           "${PROJ_PATH:-}"/src/bash/run/*.func.sh; do
-    [[ -f "$f" ]] || continue
+  # Scan only dirs that exist (avoids `find` printing errors for missing trees).
+  [[ -d "${PROJ_PATH:-}/lib/bash/funcs" ]] && search_dirs+=("${PROJ_PATH}/lib/bash/funcs")
+  [[ -d "${PROJ_PATH:-}/src/bash/run" ]]   && search_dirs+=("${PROJ_PATH}/src/bash/run")
+  (( ${#search_dirs[@]} == 0 )) && return
+
+  while IFS= read -r -d "" f; do
     source "$f"
     # Derive function name: kebab-case.func.sh → do_snake_case
     fname="$(basename "$f" .func.sh)"
@@ -360,7 +383,7 @@ do_load_functions() {
     if declare -f "$func_name" &>/dev/null; then
       _func_to_file["$func_name"]="$f"
     fi
-  done
+  done < <(find "${search_dirs[@]}" -type f -name "*.func.sh" -print0 2>/dev/null | sort -z)
 }
 
 quit_on(){
@@ -406,4 +429,4 @@ main "$@"
 # When copying this file into a downstream project: bump the version above and
 # append a new entry describing the local change. Keep the banner intact.
 #==============================================================================
-# run-bsh ::: v3.8.1
+# run-bsh ::: v3.8.2

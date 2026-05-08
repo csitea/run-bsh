@@ -1,7 +1,8 @@
 #!/bin/bash
 #------------------------------------------------------------------------------
-# @description Demonstrates @arg-driven named-argument parsing. Defaults to
-# self-contained values so the test passes when invoked as `./run -a do_test_named_args`.
+# @description Demonstrates @arg-driven named-argument parsing. Used by
+# test-named-args.tst.sh to verify the framework's named-args + validation.
+# @param NAME (required) - Greeting target; rejected by validate_params if unset.
 # @arg --name NAME
 # @arg --force FORCE
 #------------------------------------------------------------------------------
@@ -10,6 +11,7 @@ do_test_named_args() {
   local name="${NAME:-Alice}"
   local force="${FORCE:-false}"
 
+  do_log "INFO Hello, ${name}!"
   do_log "INFO test_named_args — name=$name force=$force"
   if [[ "$force" == "true" ]]; then
     do_log "INFO Force mode is ENABLED"
@@ -18,4 +20,4 @@ do_test_named_args() {
   fi
   do_log "OK test_named_args passed"
 }
-# run-bsh ::: v3.8.1
+# run-bsh ::: v3.8.2

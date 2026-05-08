@@ -49,7 +49,7 @@ fi
 echo "--- Test 3: Missing required named argument (expected to fail) ---"
 out=$(./run -a test-named-args --force 2>&1)
 rc=$?
-if [[ $rc -ne 0 ]] && grep -q 'environment variable "NAME" does not have a value' <<<"$out"; then
+if [[ $rc -ne 0 ]] && grep -q 'Required parameter NAME is not set' <<<"$out"; then
   assert "Test 3: missing NAME correctly rejected (rc=$rc)" ok
 else
   echo "$out"
@@ -69,4 +69,4 @@ fi
 
 echo "--- Summary: $pass passed, $fail failed ---"
 [[ $fail -eq 0 ]]
-# run-bsh ::: v3.7.0
+# run-bsh ::: v3.8.2

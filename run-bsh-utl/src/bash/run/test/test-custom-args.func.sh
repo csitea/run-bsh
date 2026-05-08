@@ -1,7 +1,7 @@
 #!/bin/bash
 #------------------------------------------------------------------------------
-# @description Demonstrates a custom getopts _args hook. Defaults to
-# self-contained values so the test passes when invoked as `./run -a do_test_custom_args`.
+# @description Demonstrates a custom getopts _args hook. Used by
+# test-named-args.tst.sh Test 4 to verify short-flag parsing via getopts.
 #------------------------------------------------------------------------------
 
 do_test_custom_args_args() {
@@ -19,6 +19,7 @@ do_test_custom_args() {
   local name="${NAME:-Bob}"
   local force="${FORCE:-false}"
   do_log "INFO test_custom_args — name=$name force=$force"
+  echo "Custom Parse Result: Name=$name, Force=$force"
   do_log "OK test_custom_args passed"
 }
-# run-bsh ::: v3.8.1
+# run-bsh ::: v3.8.2

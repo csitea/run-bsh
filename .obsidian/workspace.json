@@ -11,12 +11,14 @@
             "id": "ebb819bd51721405",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png"
+                "file": "run-bsh-doc/doc/md/run-bsh-utl.SYG.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "CORE_CONCEPTS"
+              "icon": "lucide-file",
+              "title": "run-bsh-utl.SYG"
             }
           }
         ]
@@ -92,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png",
+                "file": "run-bsh-doc/doc/md/run-bsh-utl.SYG.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for CORE_CONCEPTS"
+              "title": "Backlinks for run-bsh-utl.SYG"
             }
           },
           {
@@ -111,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png",
+                "file": "run-bsh-doc/doc/md/run-bsh-utl.SYG.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from CORE_CONCEPTS"
+              "title": "Outgoing links from run-bsh-utl.SYG"
             }
           },
           {
@@ -154,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "run-bsh-doc/doc/md/CORE_CONCEPTS.png",
+                "file": "run-bsh-doc/doc/md/run-bsh-utl.SYG.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of CORE_CONCEPTS"
+              "title": "Outline of run-bsh-utl.SYG"
             }
           }
         ]
@@ -183,27 +185,33 @@
   },
   "active": "ebb819bd51721405",
   "lastOpenFiles": [
-    "run-bsh-utl/cnf/bash/proj.cnf",
+    "run-bsh-utl/src/bash/run/test/test-all.func.sh.tmp.1514562.42aa36640525",
+    "run-bsh-utl/src/bash/run/zip/zip-till-commit.func.sh",
+    "run-bsh-utl/src/bash/run/zip/zip-proj.func.sh",
+    "run-bsh-utl/src/bash/run/zip/zip-oae-proj.func.sh",
+    "run-bsh-utl/src/bash/run/zip/zip-me-as-module.func.sh",
+    "run-bsh-utl/src/bash/run/zip/zip-dirs.func.sh",
+    "run-bsh-utl/src/bash/run/zip/zip-all-projects.func.sh",
+    "run-bsh-utl/src/bash/run/zip/unzip-deploy.func.sh",
+    "run-bsh-utl/src/bash/run/zip",
+    "run-bsh-utl/src/bash/run/morph/morph-path.func.sh",
+    "run-bsh-utl/src/bash/run/morph/morph-module.func.sh",
+    "run-bsh-doc/doc/md/run-bsh-utl.NMC.md",
+    "run-bsh-doc/doc/md/run-bsh-utl.DEV.png",
+    "run-bsh-doc/doc/md/run-bsh-utl.DEV.md",
     "run-bsh-doc/doc/md/CORE_CONCEPTS.md",
+    "run-bsh-doc/doc/md/CORE_CONCEPTS.png",
     "run-bsh-doc/doc/md/shell-actions/test-hooks.png",
     "run-bsh-doc/doc/md/shell-actions/test-config.png",
     "run-bsh-doc/doc/md/shell-actions/print-help.png",
     "run-bsh-doc/doc/md/shell-actions/help-with.png",
     "run-bsh-doc/doc/md/run-bsh-utl.SYG.png",
     "run-bsh-doc/doc/md/run-bsh-utl.NMC.png",
-    "run-bsh-doc/doc/md/run-bsh-utl.DEV.png",
     "run-bsh-doc/doc/md/INDEX.png",
     "run-bsh-doc/doc/md/specs/symlinks-portable.spec.png",
-    "run-bsh-doc/doc/md/specs/run-bsh-utl.Logging.spec.png",
     "run-bsh-doc/doc/md/DIRECTORY_STRUCTURE.md",
-    "run-bsh-doc/doc/md/run-bsh-utl.NMC.md",
-    "run-bsh-doc/doc/md/run-bsh-utl.DEV.md",
     "run-bsh-utl/RELEASE.md",
     "run-bsh-doc/doc/md/run-bsh-utl.SYG.md",
-    "run-bsh-utl/src/bash/run/fork-morph-proj-from-src-proj.func.sh",
-    "run-bsh-doc/quartz.layout.ts",
-    "run-bsh-doc/quartz.config.ts",
-    "run-bsh-doc/package.json",
     "run-bsh-doc/doc/md/specs/symlinks-portable.spec.md",
     "run-bsh-doc/doc/md/specs/run-bsh-utl.Logging.spec.md",
     "run-bsh-doc/doc/md/specs/run-bsh-utl.Configurability.spec.md",
@@ -211,14 +219,8 @@
     "run-bsh-doc/doc/md/shell-actions/test-config.md",
     "run-bsh-doc/doc/md/shell-actions/print-help.md",
     "run-bsh-doc/doc/md/shell-actions/help-with.md",
-    "run-bsh-doc/doc/md/specs",
-    "run-bsh-doc/doc/md/shell-actions",
     "run-bsh-doc/doc/md/SCRIPTS.md",
     "run-bsh-doc/doc/md/INDEX.md",
-    "run-bsh-doc/doc/md",
-    "run-bsh-doc/doc",
-    "run-bsh-doc",
-    "run-bsh-utl/src/bash/run/zip-all-projects.func.sh",
     "run-bsh-utl/README.md"
   ]
 }

@@ -17,7 +17,9 @@ do_test_all() {
     # Subshell isolates: execute_step's error_handler calls `exit` on failure,
     # which would otherwise kill this loop. The subshell turns that exit into
     # a non-zero subshell-status that we capture cleanly.
-    ( execute_step "$t" ) ; rv=$?
+    # NAME default keeps do_test_named_args (which declares NAME as @param
+    # required) from validation-failing in the suite's positive run.
+    ( NAME="${NAME:-test-all}" FORCE="${FORCE:-false}" execute_step "$t" ) ; rv=$?
     if (( rv == 0 )); then
       passed=$((passed + 1))
       do_log "OK   $t passed"
@@ -36,4 +38,4 @@ do_test_all() {
   fi
   do_log "OK test_all — all $total tests passed"
 }
-# run-bsh ::: v3.8.1
+# run-bsh ::: v3.8.2
