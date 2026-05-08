@@ -81,6 +81,20 @@ do_version_bump() {
   printf "%s" "$new_version" > "$version_file"
   git -C "$target_proj" add .version
 
+  # Also mirror the bump into any module-level .version files at depth 1
+  # (e.g. run-bsh-utl/.version, doc-hub-utl/.version) so the framework version
+  # shipped via overlay zips matches the repo-root version.
+  local _mod
+  for _mod in "$target_proj"/*/; do
+    local _mod_version="${_mod%/}/.version"
+    if [[ -f "$_mod_version" ]]; then
+      printf "%s" "$new_version" > "$_mod_version"
+      local _rel="${_mod_version#${target_proj}/}"
+      git -C "$target_proj" add "$_rel"
+      do_log "INFO Mirrored .version into ${_rel}"
+    fi
+  done
+
   if git -C "$target_proj" diff --cached --quiet; then
     do_log "INFO .version unchanged — no commit needed"
   else
@@ -99,4 +113,4 @@ do_version_bump() {
 
   export APP_VERSION="$new_tag"
 }
-# run-bsh ::: v3.8.2
+# run-bsh ::: v3.9.2
