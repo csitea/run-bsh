@@ -25,13 +25,18 @@
 # @param ZIP_NAME (optional) - Override base name for the zip file; default:
 #                              <app>-relative
 # @param EXCLUDE_FILE_GLOB (optional) - Extra zip exclusion glob(s);
-#                                       whitespace- or colon-separated
+#                                       whitespace- or colon-separated.
+#                                       Matches anywhere in the tree.
+# @param EXCLUDE_PATHS     (optional) - Comma-separated paths to exclude
+#                                       relative to each SRC_DIR (top-level
+#                                       only — e.g. ".version,README.md")
 # @example SRC_DIRS=/opt/csi/doc-hub/doc-hub-con ./run -a do_zip_dirs_relative
 # @example SRC_DIRS=/opt/csi/doc-hub/doc-hub-con,/var/csi/doc-hub/doc-hub-con/dat ./run -a do_zip_dirs_relative
 # @example SRC_DIRS=/opt/csi/doc-hub ZIP_NAME=doc-hub-content ./run -a do_zip_dirs_relative
 # @output Creates <DST_DIR>/<ZIP_NAME>.<version>.<timestamp>.zip with archive
 # @output entries that START AT EACH SRC_DIR'S CHILDREN (no opt/csi/... prefix).
-# @arg --src-dirs SRC_DIRS
+# @arg --src-dirs       SRC_DIRS
+# @arg --exclude-paths  EXCLUDE_PATHS
 # @arg --base-dir BASE_DIR
 # @arg --dst-dir  DST_DIR
 # @arg --zip-name ZIP_NAME
@@ -132,6 +137,25 @@ do_zip_dirs_relative() {
       _user_excludes+=(-x "$_pattern")
     done
   fi
+  if [[ -n "${EXCLUDE_PATHS:-}" ]]; then
+    # EXCLUDE_PATHS is comma-separated, top-level only (relative to SRC_DIR)
+    local -a _epaths=()
+    local _old_ifs="$IFS"
+    IFS=','
+    read -ra _epaths <<< "$EXCLUDE_PATHS"
+    IFS="$_old_ifs"
+    local _ep
+    for _ep in "${_epaths[@]}"; do
+      # Trim whitespace
+      _ep="${_ep#"${_ep%%[![:space:]]*}"}"
+      _ep="${_ep%"${_ep##*[![:space:]]}"}"
+      [[ -z "$_ep" ]] && continue
+      if [[ "$_ep" != ./* && "$_ep" != /* ]]; then
+        _ep="./$_ep"
+      fi
+      _user_excludes+=(-x "$_ep")
+    done
+  fi
 
   do_log "INFO ========================================"
   do_log "INFO Zipping (relative) the CONTENTS of:"
@@ -144,6 +168,7 @@ do_zip_dirs_relative() {
   if (( ${#_user_excludes[@]} > 0 )); then
     do_log "INFO User excludes: ${_user_excludes[*]}"
   fi
+  [[ -n "${EXCLUDE_PATHS:-}" ]] && do_log "INFO EXCLUDE_PATHS: ${EXCLUDE_PATHS}"
   do_log "INFO ========================================"
 
   # Make sure we don't append into a pre-existing file with the same name
