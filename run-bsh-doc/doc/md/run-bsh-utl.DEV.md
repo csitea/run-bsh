@@ -5,32 +5,6 @@ To maintain consistency and portability, contributors must follow these standard
 
 ---
 
-## 🌿 Branching Strategy
-
-```
-main / master          ← stable; deployed to production
-  └─ feature/<JIRA-NNN>-short-description
-  └─ fix/<JIRA-NNN>-short-description
-  └─ chore/<JIRA-NNN>-short-description
-```
-
-- All work happens on short-lived branches named after the Jira ticket.
-- Branch from `master`; merge back via PR after peer review.
-- No direct commits to `master`.
-- Delete the branch after merge.
-
-### Typical flow
-
-```bash
-git checkout master && git pull
-git checkout -b feature/CSI-123-add-jira-close-action
-# ... develop, test ...
-git push -u origin feature/CSI-123-add-jira-close-action
-# open PR → peer review → merge → delete branch
-```
-
----
-
 ## 🛠️ Implementing a New Action
 
 ### 1. File & Function Convention
