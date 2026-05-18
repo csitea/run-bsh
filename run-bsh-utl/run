@@ -341,7 +341,14 @@ do_set_vars() {
 
 do_ensure_logical_link() {
   if [[ "${unit_run_dir:-}" != */src/bash/run ]]; then
-    export PROJ_PATH=$(cd $unit_run_dir && echo $(pwd))
+    export PROJ_PATH=$(cd "$unit_run_dir" && pwd)
+    # APP_PATH/ORG_PATH/BASE_PATH were derived assuming run lives at
+    # <PROJ>/src/bash/run/run.sh; when run sits at <PROJ>/run instead they
+    # over-shoot by 3 levels. Re-derive from the corrected PROJ_PATH.
+    export APP_PATH="$(cd "${PROJ_PATH}/.." && pwd)"
+    export ORG_APP_PATH="${APP_PATH}"
+    export ORG_PATH="$(cd "${PROJ_PATH}/../.." && pwd)"
+    export BASE_PATH="$(cd "${PROJ_PATH}/../../.." && pwd)"
   fi
 }
 
